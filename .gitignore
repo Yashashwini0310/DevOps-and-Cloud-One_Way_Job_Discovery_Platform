@@ -1,0 +1,13 @@
+# Python virtual environment
+myenv/
+
+# OS generated files #
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Other files you want to ignore
+*.pyc
+__pycache__/

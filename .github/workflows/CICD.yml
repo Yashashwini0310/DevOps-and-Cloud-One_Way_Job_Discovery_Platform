@@ -3,41 +3,61 @@ name: Django CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Runs on pushes to main branch
+      - main
   pull_request:
     branches:
-      - main  # Runs on PRs to main branch
+      - main
 
 jobs:
-  build:
+  source:
+    name: Source Stage
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        
+  build:
+    name: Build and Test Stage
+    runs-on: ubuntu-latest
+    needs: source
+
+    steps:
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set Up Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
-
-      - name: Install Dependencies
+          python-version: '3.9'
+      
+      - name: Create and Activate Virtual Environment
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          python3.9 -m venv env
+          source env/bin/activate
+
+      - name: Install dependencies
+        run: |
+          source env/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pylint
+          pip install pylint-django
 
-      - name: Run Tests
+      - name: Run Django Tests
         run: |
-          source venv/bin/activate
-          python manage.py test  # Run Django tests
+          source env/bin/activate
+          python manage.py test
 
-      - name: Run Static Code Analysis
+      - name: Run Static Code Analysis (pylint)
         run: |
           source venv/bin/activate
           pip install pylint
-          pylint --disable=R,C accounts jobs  # Ignore style warnings
+          pylint --rcfile=.pylintrc --disable=R,C users/ jobs/ --fail-under = 8
+          
+      - name: Run Security Analysis (bandit)
+        run: |
+          bandit -r . -x env, *.log, migrations, _pycache_
 
     #   - name: Deploy to AWS Elastic Beanstalk
     #     env:

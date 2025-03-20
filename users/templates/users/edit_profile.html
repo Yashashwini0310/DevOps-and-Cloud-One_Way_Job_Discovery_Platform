@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Profile</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label>Username</label>
+            {{ user_form.username }}
+        </div>
+        <div class="mb-3">
+            <label>Email</label>
+            {{ user_form.email }}
+        </div>
+        <div class="mb-3">
+            <label>First Name</label>
+            {{ user_form.first_name }}
+        </div>
+        <div class="mb-3">
+            <label>Last Name</label>
+            {{ user_form.last_name }}
+        </div>
+        <div class="mb-3">
+            <label>Bio</label>
+            {{ profile_form.bio }}
+        </div>
+        <div class="mb-3">
+            <label>Location</label>
+            {{ profile_form.location }}
+        </div>
+        <div class="mb-3">
+            <label>Phone</label>
+            {{ profile_form.phone }}
+        </div>
+        <button type="submit" class="btn btn-success">Save Changes</button>
+    </form>
+</div>
+{% endblock %}
