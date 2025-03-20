@@ -20,9 +20,9 @@ class RegistrationForm(forms.ModelForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ["username", "email", "first_name", "last_name"]
+        fields = ["username", "email", "first_name", "last_name", "bio", "location", "phone"]
 
-class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = ["bio", "location", "phone"]
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        if 'password' in self.fields: #Check if password field exists.
+            self.fields['password'].widget.attrs['readonly'] = True #makes the password field read only.

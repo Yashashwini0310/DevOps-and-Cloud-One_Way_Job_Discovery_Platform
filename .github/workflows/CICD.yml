@@ -42,12 +42,12 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install pylint
-          pip install pylint-django
+          pip install pylint-django pytest-django pytest bandit
 
       - name: Run Django Tests
         run: |
           source env/bin/activate
-          python manage.py test
+          pytest --cov=jobs --cov=accounts
 
       - name: Run Static Code Analysis (pylint)
         run: |

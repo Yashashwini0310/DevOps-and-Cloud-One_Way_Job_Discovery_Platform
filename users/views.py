@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegistrationForm
-from .forms import ProfileUpdateForm, UserUpdateForm
+from .forms import UserUpdateForm
 
 def register(request):
     if request.method == "POST":
@@ -41,15 +41,13 @@ def profile(request):
 def edit_profile(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
+        # profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid():
             user_form.save()
-            profile_form.save()
             return redirect('profile')
 
     else:
         user_form = UserUpdateForm(instance=request.user)
-        profile_form = ProfileUpdateForm(instance=request.user.profile)
 
-    return render(request, 'users/edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'users/edit_profile.html', {'user_form': user_form})
