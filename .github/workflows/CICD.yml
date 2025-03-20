@@ -42,7 +42,7 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install pylint
-          pip install pylint-django pytest-django pytest bandit
+          pip install pylint-django pytest-django pytest bandit pytest-cov
 
       - name: Run Django Tests
         run: |
