@@ -1,0 +1,52 @@
+name: Django CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Runs on pushes to main branch
+  pull_request:
+    branches:
+      - main  # Runs on PRs to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install Dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Tests
+        run: |
+          source venv/bin/activate
+          python manage.py test  # Run Django tests
+
+      - name: Run Static Code Analysis
+        run: |
+          source venv/bin/activate
+          pip install pylint
+          pylint --disable=R,C accounts jobs  # Ignore style warnings
+
+    #   - name: Deploy to AWS Elastic Beanstalk
+    #     env:
+    #       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #       AWS_REGION: "us-east-1"  # Change this to your AWS region
+    #       EB_ENVIRONMENT: "job-portal-env"
+    #       EB_APPLICATION: "JobPortalApp"
+        # run: |
+        #   pip install awsebcli
+        #   eb init $EB_APPLICATION --platform "Python 3.9" --region $AWS_REGION
+        #   eb deploy $EB_ENVIRONMENT
