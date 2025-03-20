@@ -51,7 +51,7 @@ jobs:
 
       - name: Run Static Code Analysis (pylint)
         run: |
-          source venv/bin/activate
+          source env/bin/activate
           pip install pylint
           pylint --rcfile=.pylintrc --disable=R,C users/ jobs/ --fail-under = 8
           
