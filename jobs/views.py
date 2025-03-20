@@ -20,14 +20,18 @@ def job_detail(request, job_id):
 def job_create(request):
     """creating a Job object using a JobForm"""
     # Only logged-in users can create jobs
+    if not request.user.is_employer:  
+        return redirect("job_list")  # Redirect non-employers
     if request.method == "POST":
         form = JobForm(request.POST)
         if form.is_valid():
-            form.save()
+            job = form.save(commit=False)
+            job.employer = request.user  # Assign logged-in employer
+            job.save()
             return redirect("job_list")
     else:
         form = JobForm()
-    return render(request, "jobs/job_form.html",{"form": form})
+    return render(request, "jobs/create_job.html",{"form": form})
 
 @login_required
 def job_update(request, job_id):
