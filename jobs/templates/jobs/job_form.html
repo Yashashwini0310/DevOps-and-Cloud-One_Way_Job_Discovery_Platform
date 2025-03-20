@@ -1,0 +1,7 @@
+<h2>{% if form.instance.pk %}Edit Job{% else %}Create Job{% endif %}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!--Django will auto-generate the input fields -->
+    <button type="submit">Save</button>
+</form>
+<a href="{% url 'job_list' %}">Back to Jobs</a>
