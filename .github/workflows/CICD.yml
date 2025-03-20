@@ -57,6 +57,8 @@ jobs:
           
       - name: Run Security Analysis (bandit)
         run: |
+          source env/bin/activate
+          pip install bandit
           bandit -r . -x env, *.log, migrations, _pycache_
 
     #   - name: Deploy to AWS Elastic Beanstalk

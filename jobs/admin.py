@@ -11,7 +11,7 @@ class JobAdmin(admin.ModelAdmin):
     search_fields = ('title', 'company', 'location')
     list_filter = ('company', 'location', 'posted_at')
     ordering = ('-posted_at',)
+    readonly_fields = ('posted_at',) #makes posted at read only
     fieldsets = (
         ('Job Details', {'fields': ('title', 'company', 'location', 'salary', 'description')}),
-        ('Additional Info', {'fields': ('posted_at',)}),
     )
