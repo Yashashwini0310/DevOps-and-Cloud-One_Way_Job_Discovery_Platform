@@ -136,7 +136,7 @@ CSRF_TRUSTED_ORIGINS = ['https://25526a0bed514953852443108c35e66a.vfs.cloud9.eu-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'job_portal/static'), 
+    #os.path.join(BASE_DIR, 'static'), 
 ]
 
 MEDIA_URL = '/media/'
