@@ -1,13 +1,24 @@
-# Python virtual environment
-myenv/
-
 # OS generated files #
 .DS_Store
 Thumbs.db
 
 # Logs
 *.log
-
+*.sqlite
+*.db
 # Other files you want to ignore
+# Virtual environment
+myenv/
+env/
+venv/
 *.pyc
 __pycache__/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
