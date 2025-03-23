@@ -26,8 +26,7 @@ SECRET_KEY = '_kfvy%oi41+a*4bx0qxq38n71@etps1$#q*nejv8c4%sh!_lm@'
 DEBUG = True
 
 ALLOWED_HOSTS = ['25526a0bed514953852443108c35e66a.vfs.cloud9.eu-west-1.amazonaws.com',
-'127.0.0.1',
-'Localhost',]
+'jobportalenv-env.eba-pe27gzd2.eu-west-1.elasticbeanstalk.com']
 
 
 # Application definition
@@ -129,7 +128,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-CSRF_TRUSTED_ORIGINS = ['https://25526a0bed514953852443108c35e66a.vfs.cloud9.eu-west-1.amazonaws.com']
+CSRF_TRUSTED_ORIGINS = ['https://25526a0bed514953852443108c35e66a.vfs.cloud9.eu-west-1.amazonaws.com',
+'jobportalenv-env.eba-pe27gzd2.eu-west-1.elasticbeanstalk.com']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
