@@ -1,0 +1,82 @@
+body {
+    background-color: #f4f6f9 !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+    color: #333; /* Darker text for readability */
+}
+
+.app-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.app-module {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 350px; /* Adjust as needed */
+    flex: 0 1 auto;
+}
+
+.app-header {
+    background: #007bff; /* Brighter blue for headers */
+    color: white;
+    padding: 10px;
+    display: block;
+    text-align: center;
+    font-weight: 600; /* Slightly lighter bold */
+    border-radius: 8px 8px 0 0;
+}
+
+.model-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.model-link:hover {
+    text-decoration: underline;
+}
+
+.module caption {
+    background: none; /* Remove default caption styling */
+    color: inherit;
+    padding: 0;
+    font-weight: normal;
+    text-align: left;
+}
+
+.module table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.module th, .module td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.button, input[type="submit"], input[type="button"] {
+    background: #007bff; /* Brighter blue for buttons */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+    background: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .app-module {
+        width: 100%; /* Full width on smaller screens */
+        margin: 10px 0;
+    }
+}
