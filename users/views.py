@@ -31,7 +31,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("login")
+    return redirect("users:login")
 
 @login_required
 def profile(request):
@@ -45,7 +45,7 @@ def edit_profile(request):
 
         if user_form.is_valid():
             user_form.save()
-            return redirect('profile')
+            return redirect('users:profile')
 
     else:
         user_form = UserUpdateForm(instance=request.user)

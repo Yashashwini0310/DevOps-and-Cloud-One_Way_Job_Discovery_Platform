@@ -1,6 +1,7 @@
 """Create Views"""
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .models import Job
 from .forms import JobForm
@@ -11,7 +12,7 @@ def home(request):
 def job_list(request):
     jobs = Job.objects.all()
     return render(request, "jobs/job_list.html", {"jobs": jobs})
-
+@login_required(login_url='users:login')
 def job_detail(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     return render(request, "jobs/job_detail.html", {"job": job})

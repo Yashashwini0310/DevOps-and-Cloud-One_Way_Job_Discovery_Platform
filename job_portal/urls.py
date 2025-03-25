@@ -21,6 +21,6 @@ urlpatterns = [
     # path("", views.home, name="home"),
     path("admin/", admin.site.urls),
     path('', include("jobs.urls")),
-    path('users/',include('users.urls')),
+    path('users/',include('users.urls', namespace='users')),
     path('', RedirectView.as_view(url='/jobs/', permanent=False), name='root_redirect'),
 ]
