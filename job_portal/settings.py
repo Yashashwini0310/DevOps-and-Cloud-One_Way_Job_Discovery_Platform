@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'jobs',
     'users',
     'rest_framework',
-    'axes',
+    # 'axes',
 ]
 # JAZZMIN_SETTINGS = {
 #     "site_title": "Job Portal Admin",
@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'axes.middleware.AxesMiddleware',  # Prevent Brute Force repeated login prevention
+    # 'axes.middleware.AxesMiddleware',  # Prevent Brute Force repeated login prevention
 ]
 
 ROOT_URLCONF = 'job_portal.urls'
@@ -117,7 +117,8 @@ USE_I18N = True
 USE_TZ = True
 
 CSRF_TRUSTED_ORIGINS = ['https://25526a0bed514953852443108c35e66a.vfs.cloud9.eu-west-1.amazonaws.com',
-'https://jobportalenv-env.eba-pe27gzd2.eu-west-1.elasticbeanstalk.com']
+'https://23251263jobportal-env.eba-epbphygd.eu-west-1.elasticbeanstalk.com',
+'http://23251263jobportal-env.eba-epbphygd.eu-west-1.elasticbeanstalk.com/',]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
@@ -135,7 +136,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'axes.backends.AxesStandaloneBackend',
 ]
 #ensures Django finds Jazzmin’s static files correctly
 STATICFILES_FINDERS = [
