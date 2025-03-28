@@ -15,7 +15,7 @@ def register(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data["password"])  # Hash password
             user.save()
-            return redirect("login")
+            return redirect("users:login")
     else:
         form = RegistrationForm()
     return render(request, "users/register.html", {"form": form})
