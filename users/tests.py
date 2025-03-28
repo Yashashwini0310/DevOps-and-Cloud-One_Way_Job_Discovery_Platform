@@ -32,11 +32,11 @@ class TestAccounts:
     def test_profile_update(self, client):
         """Test if a user can update their profile"""
         client.login(username="testuser", password="TestPassword123")
-        response = client.get(reverse("edit_profile")) #get the edit profile page.
+        response = client.get(reverse("users:edit_profile")) #get the edit profile page.
         csrf_token = response.context['csrf_token'] #get the csrf token.
 
         response = client.post(
-            reverse("edit_profile"),
+            reverse("users:edit_profile"),
             {
                 "username": "updateduser",
                 "email": "updated@example.com",

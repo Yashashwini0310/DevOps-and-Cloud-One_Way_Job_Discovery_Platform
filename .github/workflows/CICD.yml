@@ -43,11 +43,17 @@ jobs:
           pip install -r requirements.txt
           pip install pylint
           pip install pylint-django pytest-django pytest bandit pytest-cov
+          
+      - name: Set Environment Variables
+        run: |
+          source env/bin/activate
+          echo "DJANGO_SETTINGS_MODULE=job_portal.settings" >> $GITHUB_ENV
+          echo "AWS_DEFAULT_REGION=us-east-1" >> $GITHUB_ENV
 
       - name: Run Django Tests
         run: |
           source env/bin/activate
-          pytest --cov=jobs --cov=accounts
+          pytest --cov=jobs --cov=users
 
       - name: Run Static Code Analysis (pylint)
         run: |
