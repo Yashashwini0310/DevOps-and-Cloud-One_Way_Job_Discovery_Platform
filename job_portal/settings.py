@@ -13,7 +13,7 @@ SECRET_KEY = '_kfvy%oi41+a*4bx0qxq38n71@etps1$#q*nejv8c4%sh!_lm@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com',]
 
 
 # Application definition
@@ -108,8 +108,8 @@ USE_I18N = True
 USE_TZ = True
 
 CSRF_TRUSTED_ORIGINS = ['https://25526a0bed514953852443108c35e66a.vfs.cloud9.eu-west-1.amazonaws.com',
-'https://23251263jobportal-env.eba-epbphygd.eu-west-1.elasticbeanstalk.com',
-'http://23251263jobportal-env.eba-epbphygd.eu-west-1.elasticbeanstalk.com/',]
+'https://x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com',
+'http://x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com',]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
