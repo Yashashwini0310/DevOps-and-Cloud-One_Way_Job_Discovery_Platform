@@ -1,5 +1,4 @@
 import os
-from django.conf import settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -13,7 +12,8 @@ SECRET_KEY = '_kfvy%oi41+a*4bx0qxq38n71@etps1$#q*nejv8c4%sh!_lm@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com',]
+ALLOWED_HOSTS = ['x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com',
+'172.31.36.169',]
 
 
 # Application definition
@@ -30,15 +30,6 @@ INSTALLED_APPS = [
     'rest_framework',
     # 'axes',
 ]
-class CoopMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        response = self.get_response(request)
-        response['Cross-Origin-Opener-Policy'] = settings.COOP_POLICY
-        return response
-COOP_POLICY = 'same-origin'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -120,7 +111,6 @@ CSRF_TRUSTED_ORIGINS = ['https://25526a0bed514953852443108c35e66a.vfs.cloud9.eu-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 SECURE_SSL_REDIRECT = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
   # Or 'same-origin-allow-popups'
 
 STATIC_URL = '/static/'
