@@ -13,9 +13,7 @@ SECRET_KEY = '_kfvy%oi41+a*4bx0qxq38n71@etps1$#q*nejv8c4%sh!_lm@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['25526a0bed514953852443108c35e66a.vfs.cloud9.eu-west-1.amazonaws.com',
-'23251263JobPortal-env.eba-epbphygd.eu-west-1.elasticbeanstalk.com',
-'127.0.0.1:8000',]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -32,14 +30,7 @@ INSTALLED_APPS = [
     'rest_framework',
     # 'axes',
 ]
-# JAZZMIN_SETTINGS = {
-#     "site_title": "Job Portal Admin",
-#     "site_header": "Job Portal Admin",
-#     "site_brand": "Job Portal",
-#     "welcome_sign": "Welcome to the Job Portal Admin Panel",
-#     "search_model": ["accounts.CustomUser", "jobs.Job"],
-#     "user_avatar": None,
-# }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
