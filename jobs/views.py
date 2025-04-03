@@ -7,7 +7,7 @@ from .models import Job
 from .forms import JobForm
 
 def home(request):
-    return HttpResponse("Welcome to the Job Portal!")
+    return HttpResponse("Welcome to Job Portal!")
 
 def job_list(request):
     jobs = Job.objects.all()
