@@ -1,4 +1,5 @@
 import os
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -31,6 +32,7 @@ INSTALLED_APPS = [
     # 'axes',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -39,7 +41,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'middleware.CoopMiddleware',
+    # 'axes.middleware.AxesMiddleware',  # Prevent Brute Force repeated login prevention
 ]
 
 ROOT_URLCONF = 'job_portal.urls'
@@ -107,11 +109,11 @@ USE_I18N = True
 USE_TZ = True
 
 CSRF_TRUSTED_ORIGINS = ['https://25526a0bed514953852443108c35e66a.vfs.cloud9.eu-west-1.amazonaws.com',
-'https://x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com',]
+'https://x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com',
+'http://x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com/',]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-SECURE_SSL_REDIRECT = True
-  # Or 'same-origin-allow-popups'
+
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = []
