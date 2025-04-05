@@ -14,6 +14,7 @@ SECRET_KEY = '_kfvy%oi41+a*4bx0qxq38n71@etps1$#q*nejv8c4%sh!_lm@'
 DEBUG = False
 
 ALLOWED_HOSTS = ['x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com',
+'25526a0bed514953852443108c35e66a.vfs.cloud9.eu-west-1.amazonaws.com',
 '172.31.36.169',]
 
 
@@ -110,7 +111,8 @@ USE_TZ = True
 
 CSRF_TRUSTED_ORIGINS = ['https://25526a0bed514953852443108c35e66a.vfs.cloud9.eu-west-1.amazonaws.com',
 'https://x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com',
-'http://x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com/',]
+'http://x23251263yashashwinijob-env.eba-wwkdsvh3.eu-west-1.elasticbeanstalk.com/',
+'https://25526a0bed514953852443108c35e66a.vfs.cloud9.eu-west-1.amazonaws.com/']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 

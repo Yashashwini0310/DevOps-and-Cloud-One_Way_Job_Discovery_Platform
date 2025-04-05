@@ -50,18 +50,18 @@ jobs:
           echo "DJANGO_SETTINGS_MODULE=job_portal.settings" >> $GITHUB_ENV
           echo "AWS_DEFAULT_REGION=us-east-1" >> $GITHUB_ENV
 
-      - name: Run Django Tests
+      - name: Run Pytest
         run: |
           source env/bin/activate
           pytest --cov=jobs --cov=users
 
-      - name: Run Static Code Analysis (pylint)
+      - name: Run Pylint for Static Code Analysis
         run: |
           source env/bin/activate
           pip install pylint
           pylint --rcfile=.pylintrc --disable=R,C users/ jobs/ --fail-under=8.0
           
-      - name: Run Security Analysis (bandit)
+      - name: Run Bandit for Security Analysis
         run: |
           source env/bin/activate
           pip install bandit
