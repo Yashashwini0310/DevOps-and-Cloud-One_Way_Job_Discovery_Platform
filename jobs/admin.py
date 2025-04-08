@@ -15,17 +15,4 @@ class JobAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Job Details', {'fields': ('title', 'company', 'location', 'salary', 'description')}),
     )
-# class CustomAdminSite(admin.AdminSite):
-#     site_header = "Job Portal Admin"
-#     site_title = "Job Portal"
-#     index_title = "Welcome to Job Portal Admin"
 
-#     def get_urls(self):
-#         urls = super().get_urls()
-#         return urls
-
-# # Override default Django admin site
-# admin.site = CustomAdminSite()
-
-# # Add custom CSS to admin
-# admin.site.index_template = "admin/custom_index.html"

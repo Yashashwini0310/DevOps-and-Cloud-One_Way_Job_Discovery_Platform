@@ -1,3 +1,4 @@
+"""Models for registering user and updating the user field"""
 from django import forms
 from .models import CustomUser
 

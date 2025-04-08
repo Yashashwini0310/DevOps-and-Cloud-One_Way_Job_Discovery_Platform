@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v3
         
   build:
-    name: Build and Test Stage
+    name: Build Stage
     runs-on: ubuntu-latest
     needs: source
 
@@ -36,34 +36,89 @@ jobs:
           python3.9 -m venv env
           source env/bin/activate
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           source env/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pylint
-          pip install pylint-django pytest-django pytest bandit pytest-cov
+          pip install pylint pylint-django pytest pytest-django bandit pytest-cov
           
       - name: Set Environment Variables
         run: |
-          source env/bin/activate
           echo "DJANGO_SETTINGS_MODULE=job_portal.settings" >> $GITHUB_ENV
           echo "AWS_DEFAULT_REGION=us-east-1" >> $GITHUB_ENV
+
+  pylint:
+    name: Static Code Analysis (Pylint)
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: |
+          python3.9 -m venv env
+          source env/bin/activate
+          pip install pylint pylint-django
+
+      - name: Run Pylint
+        run: |
+          source env/bin/activate
+          pylint users/ jobs/ --fail-under=8.0
+
+  pytest:
+    name: Test Stage (Pytest)
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: |
+          python3.9 -m venv env
+          source env/bin/activate
+          pip install pytest pytest-django pytest-cov
 
       - name: Run Pytest
         run: |
           source env/bin/activate
           pytest --cov=jobs --cov=users
 
-      - name: Run Pylint for Static Code Analysis
+  bandit:
+    name: Security Analysis (Bandit)
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
         run: |
-          source env/bin/activate
-          pip install pylint
-          pylint --rcfile=.pylintrc --disable=R,C users/ jobs/ --fail-under=8.0
-          
-      - name: Run Bandit for Security Analysis
-        run: |
+          python3.9 -m venv env
           source env/bin/activate
           pip install bandit
-          bandit jobs/ users/
 
+      - name: Run Bandit Security Analysis
+        run: |
+          source env/bin/activate
+          bandit -r jobs/ users/
