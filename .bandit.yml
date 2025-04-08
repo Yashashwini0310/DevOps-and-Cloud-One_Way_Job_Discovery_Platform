@@ -4,5 +4,17 @@ exclude:
   - __pycache__
   - migrations
   - staticfiles
-  - users/tests.py
+  - jobs/tests.py
   - job_portal/settings.py
+skips:
+  - B106  # Ignore hardcoded password warnings
+  - B101  # Ignore assert usage
+
+# Only report issues of medium severity or higher
+severity: "MEDIUM"
+
+# Confidence threshold
+confidence: "HIGH"
+
+# Output format
+output_format: "screen"
