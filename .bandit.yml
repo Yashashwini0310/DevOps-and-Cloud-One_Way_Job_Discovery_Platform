@@ -4,5 +4,5 @@ exclude:
   - __pycache__
   - migrations
   - staticfiles
-  - tests.py
+  - users/tests.py
   - job_portal/settings.py
