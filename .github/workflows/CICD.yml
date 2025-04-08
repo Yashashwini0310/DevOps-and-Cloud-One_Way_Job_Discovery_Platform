@@ -71,7 +71,7 @@ jobs:
       - name: Run Pylint
         run: |
           source env/bin/activate
-          pylint users/ jobs/ --fail-under=8.0
+          pylint --rcfile=.pylintrc users/ jobs/ --fail-under=8.0
 
   pytest:
     name: Test Stage (Pytest)
@@ -91,7 +91,7 @@ jobs:
         run: |
           python3.9 -m venv env
           source env/bin/activate
-          pip install pytest pytest-django pytest-cov
+          pip install pytest pytest-django pytest-cov django
 
       - name: Run Pytest
         run: |
@@ -121,4 +121,4 @@ jobs:
       - name: Run Bandit Security Analysis
         run: |
           source env/bin/activate
-          bandit -r jobs/ users/
+          bandit -c .bandit.yml -r jobs/ users/

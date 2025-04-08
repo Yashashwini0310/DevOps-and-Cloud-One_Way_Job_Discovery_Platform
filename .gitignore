@@ -13,7 +13,9 @@ env/
 venv/
 *.pyc
 __pycache__/
-
+.bandit.yml
+.pylintrc
+pytest.ini
 # Distribution / packaging
 build/
 dist/

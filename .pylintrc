@@ -1,11 +1,9 @@
 [MESSAGES CONTROL]
-disable=missing-docstring, invalid-name, invalid-str-returned
+disable=missing-docstring, invalid-name, invalid-str-returned, duplicate-code
 
 [MASTER]
-ignore-patterns=
-    job_portal/migrations/
-    job_portal/_pycache_
-    users/migrations
-    users/_pycache_
-    env/
-    manage.py/
+ignore=env, manage.py
+ignore-patterns=.*\.pyc$, .*\tests.py, migrations/*, *_pycache_/*
+
+[REPORTS]
+output-format=colorized
