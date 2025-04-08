@@ -1,0 +1,11 @@
+exclude:
+  - */tests.py
+  - */migrations/*
+  - __pycache__/*
+  - env/
+  - manage.py/
+
+skips:
+  - B101  # assert used
+  - B106  # Hardcoded password
+  - B108  # Avoid hardcoded SQL queries
