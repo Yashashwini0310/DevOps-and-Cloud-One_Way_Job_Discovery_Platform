@@ -2,149 +2,135 @@ name: Django CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   source:
     name: Source Stage
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
-        
+
   build:
-    name: Build Stage
+    name: Build & Install
     runs-on: ubuntu-latest
     needs: source
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
-      
+          python-version: '3.11'
+
       - name: Create and Activate Virtual Environment
         run: |
-          python3.9 -m venv env
-          source env/bin/activate
+          python -m venv venv
+          source venv/bin/activate
 
       - name: Install Dependencies
         run: |
-          source env/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pylint pylint-django pytest pytest-django bandit pytest-cov
-          
-      - name: Set Environment Variables
-        run: |
-          echo "DJANGO_SETTINGS_MODULE=job_portal.settings" >> $GITHUB_ENV
-          echo "AWS_DEFAULT_REGION=us-east-1" >> $GITHUB_ENV
+          pip install pylint pylint-django bandit pytest pytest-django pytest-cov
 
-  pylint:
-    name: Static Code Analysis (Pylint)
+  lint:
+    name: Linting (Pylint)
     runs-on: ubuntu-latest
     needs: build
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
-      - name: Install Dependencies
+      - name: Install Pylint
         run: |
-          python3.9 -m venv env
-          source env/bin/activate
           pip install -r requirements.txt
           pip install pylint pylint-django
 
       - name: Run Pylint
         run: |
-          source env/bin/activate
-          pylint --rcfile=.pylintrc users/ jobs/ --fail-under=8.0
+          pylint users/ jobs/
         continue-on-error: false
 
-  pytest:
-    name: Test Stage (Pytest)
+  test:
+    name: Run Tests (Pytest)
     runs-on: ubuntu-latest
     needs: build
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
-      - name: Install Dependencies
+      - name: Install Pytest and dependencies
         run: |
-          python3.9 -m venv env
-          source env/bin/activate
-          pip install pytest pytest-django pytest-cov django
           pip install -r requirements.txt
+          pip install pytest pytest-django pytest-cov
 
       - name: Run Pytest
         run: |
-          source env/bin/activate
-          pytest --cov=jobs --cov=users
+          pytest --cov=users --cov=jobs
         continue-on-error: false
 
-  bandit:
-    name: Security Analysis (Bandit)
+  security:
+    name: Security Check (Bandit)
     runs-on: ubuntu-latest
     needs: build
-
     steps:
-      - name: Checkout repository
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Bandit
+        run: |
+          pip install -r requirements.txt
+          pip install bandit
+
+      - name: Run Bandit
+        run: |
+          bandit -c .bandit.yml -r users/ jobs/
+        continue-on-error: false
+
+  deploy:
+    name: Deploy to AWS Elastic Beanstalk
+    runs-on: ubuntu-latest
+    needs: [test, lint, security]  # Only deploy if all checks pass
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
-      - name: Install Dependencies
+      - name: Install EB CLI
         run: |
-          python3.9 -m venv env
-          source env/bin/activate
-          pip install -r requirements.txt
-          pip install bandit
+          pip install awsebcli
 
-      - name: Run Bandit Security Analysis
-        run: |
-          source env/bin/activate
-          bandit -c .bandit.yml -r jobs/ users/
-        continue-on-error: false
-        
-  pipeline-check:
-    name: Push to Pipeline
-    runs-on: ubuntu-latest
-    needs: [pytest, pylint, build, bandit]
-
-    permissions:
-      id-token: write
-      contents: read
-
-    steps:
-      - name: Configure AWS credentials from OIDC
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Trigger Pipeline in AWS
-        run: aws codepipeline start-pipeline-execution --name MyJobPortalPipeline --region eu-west-1
+      - name: Deploy to Elastic Beanstalk
+        run: |
+          eb init -p python-3.11 ${{ secrets.APP_NAME }} --region ${{ secrets.AWS_REGION }}
+          eb use ${{ secrets.ENV_NAME }}
+          eb deploy
