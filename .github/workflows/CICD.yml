@@ -138,3 +138,4 @@ jobs:
       - name: Trigger Pipeline in AWS
         run: |
           aws codepipeline start-pipeline-execution --name MyJobPortalPipeline --region eu-west-1
+        if: success()
