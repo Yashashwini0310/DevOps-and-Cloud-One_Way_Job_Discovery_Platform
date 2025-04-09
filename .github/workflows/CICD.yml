@@ -138,13 +138,13 @@ jobs:
       id-token: write
       contents: read
 
-  steps:
-    - name: Configure AWS credentials from OIDC
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        role-to-assume: arn:aws:iam::250738637992:role/service-role/AWSCodePipelineServiceRole-eu-west-1-new
-        aws-region: eu-west-1
+    steps:
+      - name: Configure AWS credentials from OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::250738637992:role/service-role/AWSCodePipelineServiceRole-eu-west-1-new
+          aws-region: eu-west-1
 
-    - name: Trigger AWS CodePipeline
-      run: |
-        aws codepipeline start-pipeline-execution --name MyJobPortalPipeline --region eu-west-1
+      - name: Trigger AWS CodePipeline
+        run: |
+          aws codepipeline start-pipeline-execution --name MyJobPortalPipeline --region eu-west-1
