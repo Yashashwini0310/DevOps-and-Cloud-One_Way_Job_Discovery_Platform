@@ -142,9 +142,9 @@ jobs:
       - name: Configure AWS credentials from OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::250738637992:role/service-role/AWSCodePipelineServiceRole-eu-west-1-new
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
 
-      - name: Trigger AWS CodePipeline
-        run: |
-          aws codepipeline start-pipeline-execution --name MyJobPortalPipeline --region eu-west-1
+      - name: Trigger Pipeline in AWS
+        run: aws codepipeline start-pipeline-execution --name MyJobPortalPipeline --region eu-west-1
