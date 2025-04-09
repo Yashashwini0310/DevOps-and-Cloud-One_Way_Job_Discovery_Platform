@@ -2,108 +2,133 @@ name: Django CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   source:
     name: Source Stage
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
 
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        
   build:
-    name: Build & Install
+    name: Build Stage
     runs-on: ubuntu-latest
     needs: source
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-
+          python-version: '3.9'
+      
       - name: Create and Activate Virtual Environment
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          python3.9 -m venv env
+          source env/bin/activate
 
       - name: Install Dependencies
         run: |
+          source env/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pylint pylint-django bandit pytest pytest-django pytest-cov
+          pip install pylint pylint-django pytest pytest-django bandit pytest-cov
+          
+      - name: Set Environment Variables
+        run: |
+          echo "DJANGO_SETTINGS_MODULE=job_portal.settings" >> $GITHUB_ENV
+          echo "AWS_DEFAULT_REGION=us-east-1" >> $GITHUB_ENV
 
-  lint:
-    name: Linting (Pylint)
+  pylint:
+    name: Static Code Analysis (Pylint)
     runs-on: ubuntu-latest
     needs: build
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.9'
 
-      - name: Install Pylint
+      - name: Install Dependencies
         run: |
+          python3.9 -m venv env
+          source env/bin/activate
           pip install -r requirements.txt
-          pip install pylint pylint-django django
+          pip install pylint pylint-django
 
       - name: Run Pylint
         run: |
+          source env/bin/activate
           pylint --rcfile=.pylintrc users/ jobs/ --fail-under=8.0
         continue-on-error: false
 
-  test:
-    name: Run Tests (Pytest)
+  pytest:
+    name: Test Stage (Pytest)
     runs-on: ubuntu-latest
     needs: build
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.9'
 
-      - name: Install Pytest and dependencies
+      - name: Install Dependencies
         run: |
-          pip install -r requirements.txt
+          python3.9 -m venv env
+          source env/bin/activate
           pip install pytest pytest-django pytest-cov django
+          pip install -r requirements.txt
 
       - name: Run Pytest
         run: |
-          pytest --cov=users --cov=jobs
+          source env/bin/activate
+          pytest --cov=jobs --cov=users
         continue-on-error: false
 
-  security:
-    name: Security Check (Bandit)
+  bandit:
+    name: Security Analysis (Bandit)
     runs-on: ubuntu-latest
     needs: build
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.9'
 
-      - name: Install Bandit
+      - name: Install Dependencies
         run: |
+          python3.9 -m venv env
+          source env/bin/activate
           pip install -r requirements.txt
           pip install bandit
 
-      - name: Run Bandit
+      - name: Run Bandit Security Analysis
         run: |
-          bandit -c .bandit.yml -r users/ jobs/
+          source env/bin/activate
+          bandit -c .bandit.yml -r jobs/ users/
         continue-on-error: false
-
+        
   deploy:
     name: Deploy to AWS Elastic Beanstalk
     runs-on: ubuntu-latest
