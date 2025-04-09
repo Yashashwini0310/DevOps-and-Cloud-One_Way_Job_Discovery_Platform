@@ -72,7 +72,7 @@ jobs:
       - name: Run Pylint
         run: |
           source env/bin/activate
-          pylint --rcfile=.pylintrc users/ jobs/ --fail-under=8.0
+          pylint --rcfile=.pylintrc users/ jobs/
 
   pytest:
     name: Test Stage (Pytest)
