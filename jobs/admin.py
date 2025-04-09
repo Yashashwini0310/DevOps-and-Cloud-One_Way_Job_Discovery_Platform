@@ -14,5 +14,5 @@ class JobAdmin(admin.ModelAdmin):
     readonly_fields = ('posted_at',) #makes posted at read only
     fieldsets = (
         ('Job Details', {'fields': ('title', 'company', 'location', 'salary', 'description')}),
-    )
+        )
 
