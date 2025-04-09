@@ -133,9 +133,18 @@ jobs:
     name: Push to Pipeline
     runs-on: ubuntu-latest
     needs: [pytest, pylint, build, bandit]
-    
-    steps:
-      - name: Trigger Pipeline in AWS
-        run: |
-          aws codepipeline start-pipeline-execution --name MyJobPortalPipeline --region eu-west-1
-        if: success()
+
+    permissions:
+      id-token: write
+      contents: read
+
+  steps:
+    - name: Configure AWS credentials from OIDC
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::250738637992:role/service-role/AWSCodePipelineServiceRole-eu-west-1-new
+        aws-region: eu-west-1
+
+    - name: Trigger AWS CodePipeline
+      run: |
+        aws codepipeline start-pipeline-execution --name MyJobPortalPipeline --region eu-west-1
